@@ -1,12 +1,29 @@
-// App.tsx
 import React from "react";
-import Homepage from "./src/screens/home-page";
+import { View, StyleSheet } from "react-native";
+
+import Header from "./src/components/header";
+import BodyPage from "./src/components/body-page";
+import Footer from "./src/components/footer";
 
 export default function App() {
   return (
-    <Homepage
-      title="Hi! I'm Dianne"
-      subtitle="A Copilot expert"
-    />
+    <View style={styles.container}>
+      <Header title="Hi! Welcome to my Profile" />
+
+      <BodyPage
+        name="Dianne"
+        course="BSIT Student and expert in copilot"
+        message="Welcome to my React Native App"
+      />
+
+      <Footer text="© 2026 My App | All Rights Reserved" />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#f3f4f6",
+  },
+});
