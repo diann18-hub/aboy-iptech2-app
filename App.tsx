@@ -5,8 +5,8 @@ import Homepage from "./src/screens/home-page";
 export default function App() {
   return (
     <Homepage
-      title="Hello Philippines!"
-      subtitle="Labarnnnnnnn"
+      title="Hi! I'm Dianne"
+      subtitle="A Copilot expert"
     />
   );
 }
