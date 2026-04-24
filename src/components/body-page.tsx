@@ -1,74 +1,78 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, FlatList } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 
-type Props = {
+type Post = {
+  id: string;
   name: string;
-  course: string;
-  message: string;
+  avatar: string;
+  content: string;
+  image?: string;
+  liked: boolean;
 };
 
-const images = [
-  "https://picsum.photos/200/200?1",
-  "https://picsum.photos/200/200?2",
-  "https://picsum.photos/200/200?3",
-  "https://picsum.photos/200/200?4",
-  "https://picsum.photos/200/200?5",
-  "https://picsum.photos/200/200?6",
-  "https://picsum.photos/200/200?7",
-  "https://picsum.photos/200/200?8",
-  "https://picsum.photos/200/200?9",
+const initialPosts: Post[] = [
+  {
+    id: "1",
+    name: "Dianne",
+    avatar: "https://i.pravatar.cc/100?img=12",
+    content: "Simple UI is always better 🖤",
+    image: "https://picsum.photos/400?1",
+    liked: false,
+  },
+  {
+    id: "2",
+    name: "Dianne",
+    avatar: "https://i.pravatar.cc/100?img=12",
+    content: "Less color, more focus.",
+    liked: false,
+  },
 ];
 
-const BodyPage = ({ name, course, message }: Props) => {
+const BodyPage = () => {
+  const [posts, setPosts] = useState(initialPosts);
+
+  const toggleLike = (id: string) => {
+    setPosts((prev) =>
+      prev.map((p) =>
+        p.id === id ? { ...p, liked: !p.liked } : p
+      )
+    );
+  };
+
   return (
-    <View style={styles.container}>
-
-      {/* PROFILE HEADER */}
-      <View style={styles.profileBox}>
-        <Image
-          source={{ uri: "https://i.pravatar.cc/150?img=12" }}
-          style={styles.avatar}
-        />
-
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.course}>{course}</Text>
-
-        <Text style={styles.message}>{message}</Text>
-
-        {/* STATS */}
-        <View style={styles.statsRow}>
-          <View style={styles.stat}>
-            <Text style={styles.statNum}>120</Text>
-            <Text style={styles.statLabel}>Posts</Text>
+    <FlatList
+      data={posts}
+      keyExtractor={(item) => item.id}
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+      renderItem={({ item }) => (
+        <View style={styles.card}>
+          <View style={styles.header}>
+            <Image source={{ uri: item.avatar }} style={styles.avatar} />
+            <Text style={styles.name}>{item.name}</Text>
           </View>
 
-          <View style={styles.stat}>
-            <Text style={styles.statNum}>5.4K</Text>
-            <Text style={styles.statLabel}>Followers</Text>
-          </View>
+          <Text style={styles.content}>{item.content}</Text>
 
-          <View style={styles.stat}>
-            <Text style={styles.statNum}>300</Text>
-            <Text style={styles.statLabel}>Following</Text>
-          </View>
+          {item.image && (
+            <Image source={{ uri: item.image }} style={styles.image} />
+          )}
+
+          <TouchableOpacity onPress={() => toggleLike(item.id)}>
+            <Text style={[styles.like, item.liked && styles.liked]}>
+              {item.liked ? "❤️ Liked" : "♡ Like"}
+            </Text>
+          </TouchableOpacity>
         </View>
-      </View>
-
-      {/* GALLERY TITLE */}
-      <Text style={styles.title}>📸 My Gallery</Text>
-
-      {/* PHOTO GRID */}
-      <FlatList
-        data={images}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={3}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <Image source={{ uri: item }} style={styles.image} />
-        )}
-      />
-
-    </View>
+      )}
+    />
   );
 };
 
@@ -76,80 +80,55 @@ export default BodyPage;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#f4f6fb",
     padding: 10,
+    backgroundColor: "#f5f5f5",
   },
 
-  // PROFILE
-  profileBox: {
-    backgroundColor: "#fff",
-    borderRadius: 16,
-    padding: 15,
-    alignItems: "center",
+  card: {
+    backgroundColor: "#ffffff",
+    borderRadius: 12,
+    padding: 12,
     marginBottom: 10,
-    elevation: 3,
+  },
+
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 6,
   },
 
   avatar: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    marginBottom: 10,
+    width: 35,
+    height: 35,
+    borderRadius: 20,
+    marginRight: 8,
   },
 
   name: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: "600",
     color: "#111827",
   },
 
-  course: {
-    fontSize: 13,
-    color: "#6b7280",
-  },
-
-  message: {
-    fontSize: 13,
-    color: "#4b5563",
-    textAlign: "center",
-    marginTop: 5,
-  },
-
-  statsRow: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-    marginTop: 15,
-  },
-
-  stat: {
-    alignItems: "center",
-  },
-
-  statNum: {
-    fontSize: 16,
-    fontWeight: "bold",
+  content: {
+    fontSize: 14,
     color: "#111827",
-  },
-
-  statLabel: {
-    fontSize: 12,
-    color: "#9ca3af",
-  },
-
-  // GALLERY
-  title: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginVertical: 10,
-    color: "#111827",
+    marginVertical: 5,
   },
 
   image: {
-    width: "32%",
-    height: 110,
-    margin: 2,
+    width: "100%",
+    height: 200,
     borderRadius: 10,
+    marginVertical: 6,
+  },
+
+  like: {
+    marginTop: 6,
+    color: "#6b7280",
+    fontSize: 13,
+  },
+
+  liked: {
+    color: "#e11d48",
   },
 });

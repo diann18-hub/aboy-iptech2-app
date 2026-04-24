@@ -17,12 +17,12 @@ export default Footer;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: 12,
     backgroundColor: "#111827",
     alignItems: "center",
   },
   text: {
-    color: "#fff",
+    color: "#ffffff",
     fontSize: 12,
   },
 });

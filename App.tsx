@@ -10,11 +10,7 @@ export default function App() {
     <View style={styles.container}>
       <Header title="Hi! Welcome to my Profile" />
 
-      <BodyPage
-        name="Dianne"
-        course="BSIT Student and expert in copilot"
-        message="Welcome to my React Native App"
-      />
+      <BodyPage />
 
       <Footer text="© 2026 My App | All Rights Reserved" />
     </View>

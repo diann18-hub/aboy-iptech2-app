@@ -17,13 +17,15 @@ export default Header;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#2563eb",
-    padding: 20,
+    backgroundColor: "#ffffff",
+    padding: 18,
     alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e7eb",
   },
   text: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "bold",
+    color: "#111827",
+    fontSize: 18,
+    fontWeight: "600",
   },
 });
