@@ -1,25 +1,18 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-
-import Header from "./src/components/header";
-import BodyPage from "./src/components/body-page";
-import Footer from "./src/components/footer";
+import React, { useState } from "react";
+import { View } from "react-native";
+import LoginScreen from "./src/screens/LoginScreen";
+import HomePage from "./src/screens/HomePage";
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
-    <View style={styles.container}>
-      <Header title="Hi! Welcome to my Profile" />
-
-      <BodyPage />
-
-      <Footer text="© 2026 My App | All Rights Reserved" />
+    <View style={{ flex: 1 }}>
+      {isLoggedIn ? (
+        <HomePage onLogout={() => setIsLoggedIn(false)} />
+      ) : (
+        <LoginScreen onLogin={() => setIsLoggedIn(true)} />
+      )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f3f4f6",
-  },
-});
